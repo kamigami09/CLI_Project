@@ -1,0 +1,10 @@
+Client{id='a5966f19-6828-4187-b248-016e250165a2', name='yassine', address='kenitra cite chaabi', email='yassinebouhouch76@gmail.com'}
+Client{id='5ac4d2b8-1ff8-42c2-9f86-5012be87709a', name='anas', address='kenitra cite chaabi and sale', email='anason@gmail.com'}
+Client{id='83a7253a-a36a-4620-a78c-d113bb787b93', name='ayoub', address='casablanca lwalfa', email='ayoubbakhii@gmail.com'}
+Client{id='2a832e89-546d-44fb-aead-a9ecfbe0be86', name='yassine', address='kenitra cite chaabi', email='yassinebouhouch76@gmail.com'}
+Client{id='61dd35f6-bf20-4090-85f0-52219a8aa6a6', name='anas', address='kenitra cite chaabi and sale', email='anason@gmail.com'}
+Client{id='343f0069-9b1c-4958-a50b-0ac4fc05fa7b', name='ayoub', address='casablanca lwalfa', email='ayoubbakhii@gmail.com'}
+Client{id='2a832e89-546d-44fb-aead-a9ecfbe0be86', name='yassine', address='kenitra cite chaabi', email='yassinebouhouch76@gmail.com'}
+Client{id='61dd35f6-bf20-4090-85f0-52219a8aa6a6', name='anas', address='kenitra cite chaabi and sale', email='anason@gmail.com'}
+Client{id='343f0069-9b1c-4958-a50b-0ac4fc05fa7b', name='ayoub', address='casablanca lwalfa', email='ayoubbakhii@gmail.com'}
+Client{id='0fa50f88-68d3-4042-a13e-fd7bbc38a04b', name='yas', address='kenitrayas', email='yass@'}
