@@ -13,23 +13,32 @@ public class CarService {
         return carDAO.selectAllCars();
     }
 
-    public void showAllCars() {
-        System.out.println(Arrays.toString(getCars()));
-    }
-
-    public void showAllBookedCars() {
-        for (Car x : getCars()) {
-            if (x.isBooked() == true) System.out.println(x.getCompany() + x.getModel() + x.getColor());
-        }
-    }
-
     public void showAllAvailableCars() {
+        System.out.println("\nAvailable Cars:");
         for (Car x : getCars()) {
-            if (x.isBooked() == false) System.out.println("--" + x.getCompany() + x.getModel() + x.getColor());
+            if (!x.isBooked()) {
+                System.out.println("-- " + x.getCompany() + " " + x.getModel() + " (" + x.getColor() + ")");
+            }
         }
     }
 
-    public void bookACar(Car car){
-        car.setBooked(true);
+    public Car[] getAvailableCarsByModel(String model) {
+        int count = 0;
+        for (Car car : getCars()) {
+            if (car != null && car.getModel().equalsIgnoreCase(model) && !car.isBooked()) {
+                count++;
+            }
+        }
+
+        Car[] availableCars = new Car[count];
+        int availableCarsSpot = 0;
+        for (Car car : getCars()) {
+            if (car != null && car.getModel().equalsIgnoreCase(model) && !car.isBooked()) {
+                availableCars[availableCarsSpot] = car;
+                availableCarsSpot++;
+            }
+        }
+        return availableCars;
     }
+
 }

@@ -31,13 +31,12 @@ public class ClientService {
         System.out.println(Arrays.toString(getClients()));
     }
     public void addClientByScan(Scanner scanner) {
-        System.out.println("Enter client information (name, address, email).");
-        String in = scanner.nextLine();
-        String input = scanner.nextLine();
-        String[] clientInfo=input.split(",");
-        String name = clientInfo[0].trim();
-        String address = clientInfo[1].trim();
-        String email = clientInfo[2].trim();
+        System.out.println("Enter client Name: ");
+        String name = scanner.nextLine();
+        System.out.println("Enter client Address: ");
+        String address = scanner.nextLine();
+        System.out.println("Enter client Email: ");
+        String email = scanner.nextLine();
         Client client = new Client(name,address,email);
         registerNewClient(client);
         writeClientsToFile("src/com/cliproject/user/Clients.txt");
