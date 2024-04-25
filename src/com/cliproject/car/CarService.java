@@ -1,6 +1,5 @@
 package com.cliproject.car;
 
-import java.util.Arrays;
 
 public class CarService {
     CarDAO carDAO = new CarDAO();

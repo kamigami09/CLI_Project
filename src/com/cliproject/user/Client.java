@@ -3,7 +3,7 @@ package com.cliproject.user;
 import java.util.UUID;
 
 public class Client {
-    private String id;
+    private final String id;
     private String name;
     private String address;
     private String email;
