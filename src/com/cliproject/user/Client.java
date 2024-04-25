@@ -19,6 +19,13 @@ public class Client {
         this.email = email;
     }
 
+    public Client(String id, String name, String address, String email) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.email = email;
+    }
+
     public String getId() {
         return id;
     }

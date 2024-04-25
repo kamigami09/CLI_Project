@@ -44,7 +44,7 @@ public class Main {
                     break;
                 case 3:
                     System.out.println("\nBooked Cars:");
-                    bookingService.showBookings();
+                    bookingService.showBookingsFromFile();
                     break;
                 case 4:
                     clientService.addClientByScan(scanner);
@@ -65,15 +65,15 @@ public class Main {
     // Helper method to register sample data
     private static void registerSampleData(CarService carService, ClientService clientService) {
         // Register sample cars
-        carService.registerNewCar(new Car("Toyota", "Camry", "Blue"));
-        carService.registerNewCar(new Car("Toyota", "Supra", "White"));
-        carService.registerNewCar(new Car("Audi", "Rs6", "Black"));
-        carService.registerNewCar(new Car("Honda", "Civic", "Silver"));
-        carService.registerNewCar(new Car("BMW", "3 Series", "Black"));
+        carService.registerNewCarInFile(new Car("Toyota", "Camry", "Blue"));
+        carService.registerNewCarInFile(new Car("Toyota", "Supra", "White"));
+        carService.registerNewCarInFile(new Car("Audi", "Rs6", "Black"));
+        carService.registerNewCarInFile(new Car("Honda", "Civic", "Silver"));
+        carService.registerNewCarInFile(new Car("BMW", "3 Series", "Black"));
 
         // Register sample clients
-        clientService.registerNewClient(new Client("Yassine", "Kenitra Cite Chaabi", "yassinebouhouch76@gmail.com"));
-        clientService.registerNewClient(new Client("Anas", "Kenitra Cite Chaabi and Sale", "anason@gmail.com"));
-        clientService.registerNewClient(new Client("Ayoub", "Casablanca Lwalfa", "ayoubbakhii@gmail.com"));
+        clientService.registerNewClientToFile(new Client("Yassine", "Kenitra Cite Chaabi", "yassinebouhouch76@gmail.com"));
+        clientService.registerNewClientToFile(new Client("Anas", "Kenitra Cite Chaabi and Sale", "anason@gmail.com"));
+        clientService.registerNewClientToFile(new Client("Ayoub", "Casablanca Lwalfa", "ayoubbakhii@gmail.com"));
     }
 }

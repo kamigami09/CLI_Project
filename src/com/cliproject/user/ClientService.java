@@ -1,5 +1,7 @@
 package com.cliproject.user;
 
+import com.cliproject.car.Car;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,26 +11,28 @@ import java.util.Scanner;
 public class ClientService {
 
     private ClientArrayDataAccessService clientArrayDataAccessService = new ClientArrayDataAccessService();
+    private ClientFileDataAccessService clientFileDataAccessService = new ClientFileDataAccessService();
 
-    public Client[] getClients(){
-        return clientArrayDataAccessService.selectAll();
+
+    public Client[] getClientsFromArray(){
+        return clientArrayDataAccessService.getClients();
     }
-    public void registerNewClient(Client client){
+    public Client[] getClientsFromFile(){
+        return clientFileDataAccessService.getClients();
+    }
+    public void registerNewClientToArray(Client client){
         clientArrayDataAccessService.saveClient(client);
     }
-    public void writeClientsToFile(String filename) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            Client[] clients = clientArrayDataAccessService.selectAll();
-            for (Client client : clients) {
-                writer.write(client.toString()); // Assuming you have a proper toString() method in your Client class
-                writer.newLine(); // Add a newline between clients
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void registerNewClientToFile(Client client){
+        clientFileDataAccessService.saveClient(client);
     }
-    public void showClients(){
-        System.out.println(Arrays.toString(getClients()));
+
+    public void showClients() {
+        for (Client x : getClientsFromFile()) {
+
+                System.out.println("-- " + x.getId() + " " + x.getName() + " " + x.getAddress() + " " + x.getEmail());
+
+        }
     }
     public void addClientByScan(Scanner scanner) {
         System.out.println("Enter client Name: ");
@@ -38,8 +42,8 @@ public class ClientService {
         System.out.println("Enter client Email: ");
         String email = scanner.nextLine();
         Client client = new Client(name,address,email);
-        registerNewClient(client);
-        writeClientsToFile("src/com/cliproject/user/Clients.txt");
+        registerNewClientToArray(client);
+        registerNewClientToFile(client);
     }
 
 }

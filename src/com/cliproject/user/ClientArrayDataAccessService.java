@@ -6,19 +6,19 @@ import java.util.Arrays;
 public class ClientArrayDataAccessService implements ClientDAO {
     private static Client[] clients;
     private static int nextAvailableSpot=0;
-    private static final int Capacity=5;
     static {
-        clients= new Client[Capacity];
+        clients= new Client[CAPACITY];
     }
+
     @Override
     public void saveClient(Client client){
-        if(nextAvailableSpot + 1 >= Capacity){
+        if(nextAvailableSpot + 1 >= CAPACITY){
             //grow db
         }
         clients[nextAvailableSpot++]=client;
     }
     @Override
-    public Client[] selectAll(){
-        return Arrays.copyOf(clients, nextAvailableSpot);
+    public Client[] getClients(){
+        return clients;
     }
 }

@@ -2,19 +2,27 @@ package com.cliproject.car;
 
 
 public class CarService {
-    CarDAO carDAO = new CarDAO();
+    CarArrayDataAccessService carArrayDataAccessService = new CarArrayDataAccessService();
+    CarFileDataAccessService carFileDataAccessService = new CarFileDataAccessService();
 
-    public void registerNewCar(Car car) {
-        carDAO.saveCar(car);
+    public void registerNewCarInFile(Car car) {
+        carFileDataAccessService.saveCar(car);
     }
 
-    public Car[] getCars() {
-        return carDAO.selectAllCars();
+    public Car[] getCarsFromFile() {
+        return carFileDataAccessService.getCars();
+    }
+    public void registerNewCarInArray(Car car) {
+        carArrayDataAccessService.saveCar(car);
+    }
+
+    public Car[] getCarsFromArray() {
+        return carArrayDataAccessService.getCars();
     }
 
     public void showAllAvailableCars() {
         System.out.println("\nAvailable Cars:");
-        for (Car x : getCars()) {
+        for (Car x : getCarsFromFile()) {
             if (!x.isBooked()) {
                 System.out.println("-- " + x.getCompany() + " " + x.getModel() + " (" + x.getColor() + ")");
             }
@@ -23,7 +31,8 @@ public class CarService {
 
     public Car[] getAvailableCarsByModel(String model) {
         int count = 0;
-        for (Car car : getCars()) {
+        Car[] allCars = getCarsFromFile();
+        for (Car car : allCars) {
             if (car != null && car.getModel().equalsIgnoreCase(model) && !car.isBooked()) {
                 count++;
             }
@@ -31,7 +40,7 @@ public class CarService {
 
         Car[] availableCars = new Car[count];
         int availableCarsSpot = 0;
-        for (Car car : getCars()) {
+        for (Car car : allCars) {
             if (car != null && car.getModel().equalsIgnoreCase(model) && !car.isBooked()) {
                 availableCars[availableCarsSpot] = car;
                 availableCarsSpot++;

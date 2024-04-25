@@ -1,4 +1,0 @@
-Client{id='a5382573-5178-44a0-a556-a70c32282da7', name='Yassine', address='Kenitra Cite Chaabi', email='yassinebouhouch76@gmail.com'}
-Client{id='b8dddc67-3afd-4d36-83a1-7522fcf8542c', name='Anas', address='Kenitra Cite Chaabi and Sale', email='anason@gmail.com'}
-Client{id='e964abef-8490-4683-b84e-13e228004155', name='Ayoub', address='Casablanca Lwalfa', email='ayoubbakhii@gmail.com'}
-Client{id='4247a268-ddc9-4ed5-9c8f-73a6ba57859b', name='moussa', address='moul lkrmoussa', email='tla3 fik bfagoussa'}

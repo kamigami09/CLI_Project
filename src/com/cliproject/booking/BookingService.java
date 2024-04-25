@@ -9,15 +9,18 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class BookingService {
-    BookingDAO bookingDAO = new BookingDAO();
-    public void registerNewBooking(Booking booking){
-        bookingDAO.saveBooking(booking);
+
+    BookingArrayDataAccessService bookingArrayDataAccessService = new BookingArrayDataAccessService();
+    BookingFileDataAccessService bookingFileDataAccessService = new BookingFileDataAccessService();
+
+    public void registerNewBookingInFile(Booking booking){
+        bookingFileDataAccessService.saveBooking(booking);
         booking.getCar().setBooked(true);
     }
 
-    public void showBookings(){
+    public void showBookingsFromFile(){
         System.out.println("\nBooked Cars: ");
-        for (Booking x : bookingDAO.selectAllBookings())
+        for (Booking x : bookingFileDataAccessService.getBookings())
             if (x != null){
             System.out.println("-- " + x.getCar().getCompany() + " " + x.getCar().getModel() + " (" + x.getCar().getColor() + ") " + x.getClient().getName() + " " + x.getClient().getEmail() + " " + x.getClient().getAddress() + " " + x.getStartDate() + " " + x.getEndDate());
         }
@@ -47,7 +50,7 @@ public class BookingService {
         clientService.showClients();
         System.out.println("\nSelect a client ID in these client: ");
         String clientIdChoice = scanner.nextLine();
-        Client [] availableClients = clientService.getClients();
+        Client [] availableClients = clientService.getClientsFromFile();
         for (Client availableClient : availableClients) {
             if (clientIdChoice.equals(availableClient.getId())){
                 System.out.print("Enter the start date of the booking: ");
@@ -55,8 +58,9 @@ public class BookingService {
                 System.out.print("Enter the end date of the booking: ");
                 String endDate = scanner.nextLine();
                 Booking booking = new Booking(selectedCar, availableClient, startDate, endDate);
-                bookingService.registerNewBooking(booking);
+                bookingService.registerNewBookingInFile(booking);
                 System.out.println("Booking successful!");
+                break;
             }
         }
 
