@@ -10,8 +10,13 @@ import java.util.Scanner;
 
 public class BookingService {
 
-    BookingArrayDataAccessService bookingArrayDataAccessService = new BookingArrayDataAccessService();
-    BookingFileDataAccessService bookingFileDataAccessService = new BookingFileDataAccessService();
+    private final BookingArrayDataAccessService bookingArrayDataAccessService;
+    private final BookingFileDataAccessService bookingFileDataAccessService;
+
+    public BookingService(BookingArrayDataAccessService bookingArrayDataAccessService, BookingFileDataAccessService bookingFileDataAccessService) {
+        this.bookingArrayDataAccessService = bookingArrayDataAccessService;
+        this.bookingFileDataAccessService = bookingFileDataAccessService;
+    }
 
     public void registerNewBookingInFile(Booking booking){
         bookingFileDataAccessService.saveBooking(booking);

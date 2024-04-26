@@ -2,8 +2,13 @@ package com.cliproject.car;
 
 
 public class CarService {
-    CarArrayDataAccessService carArrayDataAccessService = new CarArrayDataAccessService();
-    CarFileDataAccessService carFileDataAccessService = new CarFileDataAccessService();
+    private final CarArrayDataAccessService carArrayDataAccessService;
+    private final CarFileDataAccessService carFileDataAccessService;
+
+    public CarService(CarArrayDataAccessService carArrayDataAccessService, CarFileDataAccessService carFileDataAccessService) {
+        this.carArrayDataAccessService = carArrayDataAccessService;
+        this.carFileDataAccessService = carFileDataAccessService;
+    }
 
     public void registerNewCarInFile(Car car) {
         carFileDataAccessService.saveCar(car);

@@ -10,9 +10,13 @@ import java.util.Scanner;
 
 public class ClientService {
 
-    private ClientArrayDataAccessService clientArrayDataAccessService = new ClientArrayDataAccessService();
-    private ClientFileDataAccessService clientFileDataAccessService = new ClientFileDataAccessService();
+    private final ClientArrayDataAccessService clientArrayDataAccessService;
+    private final ClientFileDataAccessService clientFileDataAccessService;
 
+    public ClientService(ClientArrayDataAccessService clientArrayDataAccessService, ClientFileDataAccessService clientFileDataAccessService) {
+        this.clientArrayDataAccessService = clientArrayDataAccessService;
+        this.clientFileDataAccessService = clientFileDataAccessService;
+    }
 
     public Client[] getClientsFromArray(){
         return clientArrayDataAccessService.getClients();

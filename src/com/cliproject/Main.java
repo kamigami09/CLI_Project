@@ -1,9 +1,15 @@
 package com.cliproject;
 
+import com.cliproject.booking.BookingArrayDataAccessService;
+import com.cliproject.booking.BookingFileDataAccessService;
 import com.cliproject.booking.BookingService;
 import com.cliproject.car.Car;
+import com.cliproject.car.CarArrayDataAccessService;
+import com.cliproject.car.CarFileDataAccessService;
 import com.cliproject.car.CarService;
 import com.cliproject.user.Client;
+import com.cliproject.user.ClientArrayDataAccessService;
+import com.cliproject.user.ClientFileDataAccessService;
 import com.cliproject.user.ClientService;
 
 import java.util.Scanner;
@@ -13,9 +19,19 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
-        CarService carService = new CarService();
-        ClientService clientService = new ClientService();
-        BookingService bookingService = new BookingService();
+        //Dependencies:
+        CarFileDataAccessService carFileDataAccessService = new CarFileDataAccessService();
+        CarArrayDataAccessService carArrayDataAccessService = new CarArrayDataAccessService();
+        ClientArrayDataAccessService clientArrayDataAccessService = new ClientArrayDataAccessService();
+        ClientFileDataAccessService clientFileDataAccessService = new ClientFileDataAccessService();
+        BookingArrayDataAccessService bookingArrayDataAccessService = new BookingArrayDataAccessService();
+        BookingFileDataAccessService bookingFileDataAccessService = new BookingFileDataAccessService();
+
+
+        //Injecting the dependencies:
+        CarService carService = new CarService(carArrayDataAccessService, carFileDataAccessService);
+        ClientService clientService = new ClientService(clientArrayDataAccessService, clientFileDataAccessService);
+        BookingService bookingService = new BookingService(bookingArrayDataAccessService, bookingFileDataAccessService);
 
         // Register some sample cars and clients
         registerSampleData(carService, clientService);
