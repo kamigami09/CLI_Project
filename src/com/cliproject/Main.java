@@ -22,6 +22,7 @@ public class Main {
         int choice;
 
 
+
         // Data Choice
         System.out.println("Please select the data source:\n1. File\n2. Array\nEnter your choice: ");
         dataChoice = scanner.nextInt();
