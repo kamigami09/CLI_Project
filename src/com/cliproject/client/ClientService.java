@@ -1,21 +1,20 @@
-package com.cliproject.user;
+package com.cliproject.client;
 
-import com.cliproject.car.Car;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class ClientService {
 
     private final ClientArrayDataAccessService clientArrayDataAccessService;
     private final ClientFileDataAccessService clientFileDataAccessService;
+    private int dataChoice;
 
-    public ClientService(ClientArrayDataAccessService clientArrayDataAccessService, ClientFileDataAccessService clientFileDataAccessService) {
+    public ClientService(ClientArrayDataAccessService clientArrayDataAccessService,
+                         ClientFileDataAccessService clientFileDataAccessService,
+                         int dataChoice) {
         this.clientArrayDataAccessService = clientArrayDataAccessService;
         this.clientFileDataAccessService = clientFileDataAccessService;
+        this.dataChoice = dataChoice;
     }
 
     public Client[] getClientsFromArray(){
@@ -24,18 +23,29 @@ public class ClientService {
     public Client[] getClientsFromFile(){
         return clientFileDataAccessService.getClients();
     }
-    public void registerNewClientToArray(Client client){
+    public void registerNewClient(Client client){
         clientArrayDataAccessService.saveClient(client);
-    }
-    public void registerNewClientToFile(Client client){
         clientFileDataAccessService.saveClient(client);
     }
-
     public void showClients() {
-        for (Client x : getClientsFromFile()) {
+        Client[] clientsData;
 
-                System.out.println("-- " + x.getId() + " " + x.getName() + " " + x.getAddress() + " " + x.getEmail());
+        clientsData = (dataChoice == 1) ? getClientsFromFile()
+                : (dataChoice == 2) ? getClientsFromArray()
+                : null;
 
+        if(clientsData == null) {
+            System.out.println("Invalid choice.");
+            return;
+        }
+
+        for (Client client : clientsData) {
+            if (client != null) {
+                System.out.println("-- " + client.getId() + " " + client.getName() + " " + client.getAddress() + " " + client.getEmail());
+            }
+            else {
+                return;
+            }
         }
     }
     public void addClientByScan(Scanner scanner) {
@@ -46,8 +56,7 @@ public class ClientService {
         System.out.println("Enter client Email: ");
         String email = scanner.nextLine();
         Client client = new Client(name,address,email);
-        registerNewClientToArray(client);
-        registerNewClientToFile(client);
+        registerNewClient(client);
     }
 
 }

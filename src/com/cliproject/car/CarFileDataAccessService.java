@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class CarFileDataAccessService implements CarDAO {
 
     private static Car[] Cars;
-    private static int nextAvailableSpot=0;
+
     static {
         Cars = new Car[CAPACITY];
     }
@@ -26,13 +26,14 @@ public class CarFileDataAccessService implements CarDAO {
     }
 
     @Override
-    public void saveCar(Car Car) {
-        writer.println(Car.getCompany() + "," + Car.getModel() + "," + Car.getColor());
+    public void saveCar(Car car) {
+        writer.println(car.getCompany() + "," + car.getModel() + "," + car.getColor() + "," + car.isBooked());
         writer.flush();
     }
 
     @Override
     public Car[] getCars() {
+        int index = 0;
         try {
             Scanner scanner = new Scanner(csvFile);
             while (scanner.hasNext()){
@@ -41,8 +42,10 @@ public class CarFileDataAccessService implements CarDAO {
                 String company = data[0];
                 String model = data[1];
                 String color = data[2];
-                Car Car = new Car(company, model, color);
-                Cars[nextAvailableSpot++] = Car;
+                boolean isBooked = Boolean.parseBoolean(data[3]);
+                Car car = new Car(company, model, color);
+                car.setBooked(isBooked);
+                Cars[index++] = car;
             }
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());

@@ -1,7 +1,6 @@
 package com.cliproject.car;
 
 
-import java.util.Arrays;
 
 public class CarArrayDataAccessService implements CarDAO {
     private static Car[] Cars;
@@ -13,7 +12,8 @@ public class CarArrayDataAccessService implements CarDAO {
     @Override
     public void saveCar(Car car){
         if(nextAvailableSpot + 1 >= CAPACITY){
-            //grow db
+            throw new ArrayIndexOutOfBoundsException("Cannot add more cars as the database is full");
+            // GROW DB
         }
         Cars[nextAvailableSpot++]=car;
     }

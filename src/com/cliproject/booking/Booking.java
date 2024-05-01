@@ -1,7 +1,7 @@
 package com.cliproject.booking;
 
 import com.cliproject.car.Car;
-import com.cliproject.user.Client;
+import com.cliproject.client.Client;
 
 public class Booking {
     private Car car;

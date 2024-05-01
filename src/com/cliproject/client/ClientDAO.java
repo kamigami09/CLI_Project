@@ -1,10 +1,10 @@
-package com.cliproject.user;
+package com.cliproject.client;
 
 
 
 public interface ClientDAO {
 
-    int CAPACITY = 100;
+    int CAPACITY = 10;
     Client[] getClients();
     void saveClient(Client client);
 }

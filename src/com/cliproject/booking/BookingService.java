@@ -2,49 +2,84 @@ package com.cliproject.booking;
 
 import com.cliproject.car.Car;
 import com.cliproject.car.CarService;
-import com.cliproject.user.Client;
-import com.cliproject.user.ClientService;
+import com.cliproject.client.Client;
+import com.cliproject.client.ClientService;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class BookingService {
 
     private final BookingArrayDataAccessService bookingArrayDataAccessService;
     private final BookingFileDataAccessService bookingFileDataAccessService;
+    private final int dataChoice;
 
-    public BookingService(BookingArrayDataAccessService bookingArrayDataAccessService, BookingFileDataAccessService bookingFileDataAccessService) {
+    public BookingService(BookingArrayDataAccessService bookingArrayDataAccessService,
+                          BookingFileDataAccessService bookingFileDataAccessService,
+                          int dataChoice) {
         this.bookingArrayDataAccessService = bookingArrayDataAccessService;
         this.bookingFileDataAccessService = bookingFileDataAccessService;
+        this.dataChoice = dataChoice;
     }
 
-    public void registerNewBookingInFile(Booking booking){
+    public void registerNewBooking(Booking booking){
+        bookingArrayDataAccessService.saveBooking(booking);
         bookingFileDataAccessService.saveBooking(booking);
-        booking.getCar().setBooked(true);
     }
 
-    public void showBookingsFromFile(){
-        System.out.println("\nBooked Cars: ");
-        for (Booking x : bookingFileDataAccessService.getBookings())
-            if (x != null){
-            System.out.println("-- " + x.getCar().getCompany() + " " + x.getCar().getModel() + " (" + x.getCar().getColor() + ") " + x.getClient().getName() + " " + x.getClient().getEmail() + " " + x.getClient().getAddress() + " " + x.getStartDate() + " " + x.getEndDate());
-        }
-    }
+    public void showBookings(){
+        Booking[] bookings = (dataChoice == 1) ? bookingFileDataAccessService.getBookings()
+                : (dataChoice == 2) ? bookingArrayDataAccessService.getBookings()
+                : null;
 
-    public void bookACar(Scanner scanner, CarService carService, ClientService clientService, BookingService bookingService){
-        System.out.println("\nWhat is the model of the car you want to rent: ");
-        String model = scanner.nextLine();
-
-        Car[] availableCars = carService.getAvailableCarsByModel(model);
-
-        if (availableCars.length == 0) {
-            System.out.println("No available cars found with the specified model.");
+        if (bookings == null){
+            System.out.println("Invalid choice.");
             return;
         }
-        for (int i = 0; i < availableCars.length; i++)
-        {
-            System.out.println((i + 1) + "." + availableCars[i].getCompany() + " " + availableCars[i].getModel() + " " + availableCars[i].getColor());
+
+        System.out.println("\nBooked Cars: ");
+        for (Booking x : bookings)
+            if (x != null){
+            System.out.println("-- "
+                    + x.getCar().getCompany()
+                    + " "
+                    + x.getCar().getModel()
+                    + " ("
+                    + x.getCar().getColor()
+                    + ") "
+                    + x.getClient().getName()
+                    + " "
+                    + x.getClient().getEmail()
+                    + " "
+                    + x.getClient().getAddress()
+                    + " "
+                    + x.getStartDate()
+                    + " "
+                    + x.getEndDate());
         }
+    }
+
+    public void bookACar(Scanner scanner,
+                         CarService carService,
+                         ClientService clientService,
+                         BookingService bookingService){
+
+        boolean foundClient = false;
+        Car[] availableCars;
+        Client[] availableClients;
+
+        availableCars = (dataChoice == 1) ? carService.getCarsFromFile()
+                : (dataChoice == 2) ? carService.getCarsFromArray()
+                : null;
+        availableClients = (dataChoice == 1) ? clientService.getClientsFromFile()
+                : (dataChoice == 2) ? clientService.getClientsFromArray()
+                : null;
+
+        if(availableCars == null || availableClients == null) {
+            System.out.println("Invalid choice.");
+            return;
+        }
+
+        carService.showAllAvailableCars();
 
         System.out.println("\nEnter the number of the corresponding car you want to book");
         int carChoice = scanner.nextInt();
@@ -55,18 +90,27 @@ public class BookingService {
         clientService.showClients();
         System.out.println("\nSelect a client ID in these client: ");
         String clientIdChoice = scanner.nextLine();
-        Client [] availableClients = clientService.getClientsFromFile();
+
         for (Client availableClient : availableClients) {
-            if (clientIdChoice.equals(availableClient.getId())){
+            if (clientIdChoice.equals(availableClient.getId())) {
                 System.out.print("Enter the start date of the booking: ");
                 String startDate = scanner.nextLine();
                 System.out.print("Enter the end date of the booking: ");
                 String endDate = scanner.nextLine();
-                Booking booking = new Booking(selectedCar, availableClient, startDate, endDate);
-                bookingService.registerNewBookingInFile(booking);
+                Booking booking = new Booking(
+                        selectedCar,
+                        availableClient,
+                        startDate,
+                        endDate);
+                bookingService.registerNewBooking(booking);
                 System.out.println("Booking successful!");
+                selectedCar.setBooked(true);
+                foundClient = true;
                 break;
             }
+        }
+        if (!foundClient) {
+            System.out.println("Invalid client ID. Please enter a valid ID.");
         }
 
     }

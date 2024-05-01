@@ -1,7 +1,7 @@
 package com.cliproject.booking;
 
 import com.cliproject.car.Car;
-import com.cliproject.user.Client;
+import com.cliproject.client.Client;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,6 +36,7 @@ public class BookingFileDataAccessService implements BookingDAO {
 
     @Override
     public Booking[] getBookings() {
+        int index = 0;
         try {
             Scanner scanner = new Scanner(csvFile);
             while (scanner.hasNext()){
@@ -53,7 +54,7 @@ public class BookingFileDataAccessService implements BookingDAO {
                 String startDate = data[7];
                 String endDate = data[8];
                 Booking Booking = new Booking(car, client, startDate, endDate);
-                Bookings[nextAvailableSpot++] = Booking;
+                Bookings[index++] = Booking;
             }
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());

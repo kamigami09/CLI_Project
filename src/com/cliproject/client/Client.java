@@ -1,4 +1,4 @@
-package com.cliproject.user;
+package com.cliproject.client;
 
 import java.util.UUID;
 

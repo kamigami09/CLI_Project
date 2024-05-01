@@ -1,7 +1,5 @@
-package com.cliproject.user;
+package com.cliproject.client;
 
-
-import java.util.Arrays;
 
 public class ClientArrayDataAccessService implements ClientDAO {
     private static Client[] clients;
@@ -13,7 +11,8 @@ public class ClientArrayDataAccessService implements ClientDAO {
     @Override
     public void saveClient(Client client){
         if(nextAvailableSpot + 1 >= CAPACITY){
-            //grow db
+            throw new ArrayIndexOutOfBoundsException("Cannot add more clients as the database is full");
+            // GROW DB
         }
         clients[nextAvailableSpot++]=client;
     }

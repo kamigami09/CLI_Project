@@ -7,17 +7,25 @@ import com.cliproject.car.Car;
 import com.cliproject.car.CarArrayDataAccessService;
 import com.cliproject.car.CarFileDataAccessService;
 import com.cliproject.car.CarService;
-import com.cliproject.user.Client;
-import com.cliproject.user.ClientArrayDataAccessService;
-import com.cliproject.user.ClientFileDataAccessService;
-import com.cliproject.user.ClientService;
+import com.cliproject.client.Client;
+import com.cliproject.client.ClientArrayDataAccessService;
+import com.cliproject.client.ClientFileDataAccessService;
+import com.cliproject.client.ClientService;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        int dataChoice;
         int choice;
+
+
+        // Data Choice
+        System.out.println("Please select the data source:\n1. File\n2. Array\nEnter your choice: ");
+        dataChoice = scanner.nextInt();
+        scanner.nextLine();
+
 
         //Dependencies:
         CarFileDataAccessService carFileDataAccessService = new CarFileDataAccessService();
@@ -29,9 +37,19 @@ public class Main {
 
 
         //Injecting the dependencies:
-        CarService carService = new CarService(carArrayDataAccessService, carFileDataAccessService);
-        ClientService clientService = new ClientService(clientArrayDataAccessService, clientFileDataAccessService);
-        BookingService bookingService = new BookingService(bookingArrayDataAccessService, bookingFileDataAccessService);
+        CarService carService = new CarService(
+                carArrayDataAccessService,
+                carFileDataAccessService,
+                dataChoice);
+        ClientService clientService = new ClientService(
+                clientArrayDataAccessService,
+                clientFileDataAccessService,
+                dataChoice);
+        BookingService bookingService = new BookingService(
+                bookingArrayDataAccessService,
+                bookingFileDataAccessService,
+                dataChoice);
+
 
         // Register some sample cars and clients
         registerSampleData(carService, clientService);
@@ -51,22 +69,18 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    System.out.println("\nAll Clients:");
                     clientService.showClients();
                     break;
                 case 2:
-                    System.out.println("\nAvailable Cars:");
                     carService.showAllAvailableCars();
                     break;
                 case 3:
-                    System.out.println("\nBooked Cars:");
-                    bookingService.showBookingsFromFile();
+                    bookingService.showBookings();
                     break;
                 case 4:
                     clientService.addClientByScan(scanner);
                     break;
                 case 5:
-                    // Implement booking a car
                     bookingService.bookACar(scanner, carService, clientService, bookingService);
                     break;
                 case 6:
@@ -81,15 +95,15 @@ public class Main {
     // Helper method to register sample data
     private static void registerSampleData(CarService carService, ClientService clientService) {
         // Register sample cars
-        carService.registerNewCarInFile(new Car("Toyota", "Camry", "Blue"));
-        carService.registerNewCarInFile(new Car("Toyota", "Supra", "White"));
-        carService.registerNewCarInFile(new Car("Audi", "Rs6", "Black"));
-        carService.registerNewCarInFile(new Car("Honda", "Civic", "Silver"));
-        carService.registerNewCarInFile(new Car("BMW", "3 Series", "Black"));
+        carService.registerNewCar(new Car("Toyota", "Camry", "Blue"));
+        carService.registerNewCar(new Car("Toyota", "Supra", "White"));
+        carService.registerNewCar(new Car("Audi", "Rs6", "Black"));
+        carService.registerNewCar(new Car("Honda", "Civic", "Silver"));
+        carService.registerNewCar(new Car("BMW", "3 Series", "Black"));
 
         // Register sample clients
-        clientService.registerNewClientToFile(new Client("Yassine", "Kenitra Cite Chaabi", "yassinebouhouch76@gmail.com"));
-        clientService.registerNewClientToFile(new Client("Anas", "Kenitra Cite Chaabi and Sale", "anason@gmail.com"));
-        clientService.registerNewClientToFile(new Client("Ayoub", "Casablanca Lwalfa", "ayoubbakhii@gmail.com"));
+        clientService.registerNewClient(new Client("Yassine", "Kenitra Cite Chaabi", "yassinebouhouch76@gmail.com"));
+        clientService.registerNewClient(new Client("Anas", "Kenitra Cite Chaabi and Sale", "anason@gmail.com"));
+        clientService.registerNewClient(new Client("Ayoub", "Casablanca Lwalfa", "ayoubbakhii@gmail.com"));
     }
 }

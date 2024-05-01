@@ -13,7 +13,8 @@ public class BookingArrayDataAccessService implements BookingDAO{
     @Override
     public void saveBooking(Booking booking){
         if (nextAvailableSpot + 1 >= CAPACITY){
-//            grow db
+            throw new ArrayIndexOutOfBoundsException("Cannot add more cars as the database is full");
+            // GROW DB
         }
         else {
             bookings[nextAvailableSpot++] = booking;

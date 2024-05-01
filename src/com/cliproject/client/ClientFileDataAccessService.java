@@ -1,4 +1,4 @@
-package com.cliproject.user;
+package com.cliproject.client;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,11 +9,10 @@ import java.util.Scanner;
 public class ClientFileDataAccessService implements ClientDAO {
 
     private static Client[] clients;
-    private static int nextAvailableSpot=0;
     static {
         clients = new Client[CAPACITY];
     }
-    private static File csvFile = new File("src/com/cliproject/user/Clients.csv");
+    private static File csvFile = new File("src/com/cliproject/client/Clients.csv");
     private static PrintWriter writer;
 
     static {
@@ -44,25 +43,11 @@ public class ClientFileDataAccessService implements ClientDAO {
                 String address = data[2];
                 String email = data[3];
                 Client client = new Client(id, name, address, email);
-                clients[nextAvailableSpot++] = client;
+                clients[index++] = client;
             }
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
-        
-        int count = 0;
-        for (Client client : clients) {
-            if (client != null){
-                count ++;
-            }
-        }
-        
-        Client[] filteredClients = new Client[count];
-        for (Client client : clients) {
-            if(client != null){
-                filteredClients[index++] = client;
-            }
-        }
-        return filteredClients;
+        return clients;
     }
 }

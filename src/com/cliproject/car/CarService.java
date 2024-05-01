@@ -1,23 +1,26 @@
 package com.cliproject.car;
 
 
+import java.util.Scanner;
+
 public class CarService {
     private final CarArrayDataAccessService carArrayDataAccessService;
     private final CarFileDataAccessService carFileDataAccessService;
+    private int dataChoice;
 
-    public CarService(CarArrayDataAccessService carArrayDataAccessService, CarFileDataAccessService carFileDataAccessService) {
+    public CarService(CarArrayDataAccessService carArrayDataAccessService,
+                      CarFileDataAccessService carFileDataAccessService,
+                      int dataChoice) {
         this.carArrayDataAccessService = carArrayDataAccessService;
         this.carFileDataAccessService = carFileDataAccessService;
-    }
-
-    public void registerNewCarInFile(Car car) {
-        carFileDataAccessService.saveCar(car);
+        this.dataChoice = dataChoice;
     }
 
     public Car[] getCarsFromFile() {
         return carFileDataAccessService.getCars();
     }
-    public void registerNewCarInArray(Car car) {
+    public void registerNewCar(Car car) {
+        carFileDataAccessService.saveCar(car);
         carArrayDataAccessService.saveCar(car);
     }
 
@@ -26,32 +29,22 @@ public class CarService {
     }
 
     public void showAllAvailableCars() {
-        System.out.println("\nAvailable Cars:");
-        for (Car x : getCarsFromFile()) {
-            if (!x.isBooked()) {
-                System.out.println("-- " + x.getCompany() + " " + x.getModel() + " (" + x.getColor() + ")");
-            }
-        }
-    }
+        Car[] carsData;
 
-    public Car[] getAvailableCarsByModel(String model) {
-        int count = 0;
-        Car[] allCars = getCarsFromFile();
-        for (Car car : allCars) {
-            if (car != null && car.getModel().equalsIgnoreCase(model) && !car.isBooked()) {
-                count++;
-            }
+        carsData = (dataChoice == 1) ? getCarsFromFile()
+                : (dataChoice == 2) ? getCarsFromArray()
+                : null;
+
+        if(carsData == null) {
+            System.out.println("Invalid choice.");
+            return;
         }
 
-        Car[] availableCars = new Car[count];
-        int availableCarsSpot = 0;
-        for (Car car : allCars) {
-            if (car != null && car.getModel().equalsIgnoreCase(model) && !car.isBooked()) {
-                availableCars[availableCarsSpot] = car;
-                availableCarsSpot++;
+        for (int i = 0; i < carsData.length; i++) {
+            if (carsData[i] != null && !carsData[i].isBooked()) {
+                System.out.println((i + 1) + "-- " + carsData[i].getCompany() + " " + carsData[i].getModel() + " (" + carsData[i].getColor() + ")");
             }
         }
-        return availableCars;
     }
 
 }

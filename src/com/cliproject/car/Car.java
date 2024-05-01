@@ -4,7 +4,7 @@ public class Car {
     private String company;
     private String model;
     private boolean isBooked;
-    private String Color;
+    private String color;
 
 
     public Car(String company,
@@ -12,7 +12,7 @@ public class Car {
                String color) {
         this.company = company;
         this.model = model;
-        Color = color;
+        this.color = color;
         isBooked=false;
     }
 
@@ -21,7 +21,7 @@ public class Car {
         return "Car{" +
                 "company='" + company + '\'' +
                 ", model='" + model + '\'' +
-                ", Color='" + Color + '\'' +
+                ", Color='" + color + '\'' +
                 '}';
     }
 
@@ -42,6 +42,6 @@ public class Car {
     }
 
     public String getColor() {
-        return Color;
+        return color;
     }
 }
