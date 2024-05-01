@@ -26,15 +26,20 @@ public class BookingService {
         bookingFileDataAccessService.saveBooking(booking);
     }
 
-    public void showBookings(){
+    public Booking[] getBookings(){
         Booking[] bookings = (dataChoice == 1) ? bookingFileDataAccessService.getBookings()
                 : (dataChoice == 2) ? bookingArrayDataAccessService.getBookings()
                 : null;
+        return bookings;
+    }
 
-        if (bookings == null){
-            System.out.println("Invalid choice.");
-            return;
+    public void showBookings(){
+        Booking[] bookings = getBookings();
+
+        if (bookings.length == 0) {
+            System.out.println("Empty");
         }
+
 
         System.out.println("\nBooked Cars: ");
         for (Booking x : bookings)
@@ -64,15 +69,9 @@ public class BookingService {
                          BookingService bookingService){
 
         boolean foundClient = false;
-        Car[] availableCars;
-        Client[] availableClients;
+        Car[] availableCars = carService.getCars();
+        Client[] availableClients = clientService.getClients();
 
-        availableCars = (dataChoice == 1) ? carService.getCarsFromFile()
-                : (dataChoice == 2) ? carService.getCarsFromArray()
-                : null;
-        availableClients = (dataChoice == 1) ? clientService.getClientsFromFile()
-                : (dataChoice == 2) ? clientService.getClientsFromArray()
-                : null;
 
         if(availableCars == null || availableClients == null) {
             System.out.println("Invalid choice.");

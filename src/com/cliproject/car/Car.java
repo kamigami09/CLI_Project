@@ -1,11 +1,25 @@
 package com.cliproject.car;
 
+import java.util.Objects;
+
 public class Car {
     private String company;
     private String model;
     private boolean isBooked;
     private String color;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return Objects.equals(company, car.company) && Objects.equals(model, car.model) && Objects.equals(color, car.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(company, model, isBooked, color);
+    }
 
     public Car(String company,
                String model,

@@ -17,31 +17,26 @@ public class ClientService {
         this.dataChoice = dataChoice;
     }
 
-    public Client[] getClientsFromArray(){
-        return clientArrayDataAccessService.getClients();
-    }
-    public Client[] getClientsFromFile(){
-        return clientFileDataAccessService.getClients();
+    public Client[] getClients(){
+        Client[] clients = (dataChoice == 1) ? clientFileDataAccessService.getClients()
+                : (dataChoice == 2) ? clientArrayDataAccessService.getClients()
+                : null;
+        return clients;
     }
     public void registerNewClient(Client client){
         clientArrayDataAccessService.saveClient(client);
         clientFileDataAccessService.saveClient(client);
     }
     public void showClients() {
-        Client[] clientsData;
+        Client[] clientsData = getClients();
 
-        clientsData = (dataChoice == 1) ? getClientsFromFile()
-                : (dataChoice == 2) ? getClientsFromArray()
-                : null;
-
-        if(clientsData == null) {
-            System.out.println("Invalid choice.");
-            return;
+        if (clientsData.length == 0) {
+            System.out.println("Empty");
         }
 
         for (Client client : clientsData) {
             if (client != null) {
-                System.out.println("-- " + client.getId() + " " + client.getName() + " " + client.getAddress() + " " + client.getEmail());
+                System.out.println(client);
             }
             else {
                 return;

@@ -1,5 +1,6 @@
 package com.cliproject;
 
+import com.cliproject.booking.Booking;
 import com.cliproject.booking.BookingArrayDataAccessService;
 import com.cliproject.booking.BookingFileDataAccessService;
 import com.cliproject.booking.BookingService;
@@ -72,7 +73,7 @@ public class Main {
                     clientService.showClients();
                     break;
                 case 2:
-                    carService.showAllAvailableCars();
+                    showAvailableCars(carService, bookingService);
                     break;
                 case 3:
                     bookingService.showBookings();
@@ -102,8 +103,27 @@ public class Main {
         carService.registerNewCar(new Car("BMW", "3 Series", "Black"));
 
         // Register sample clients
-        clientService.registerNewClient(new Client("Yassine", "Kenitra Cite Chaabi", "yassinebouhouch76@gmail.com"));
-        clientService.registerNewClient(new Client("Anas", "Kenitra Cite Chaabi and Sale", "anason@gmail.com"));
-        clientService.registerNewClient(new Client("Ayoub", "Casablanca Lwalfa", "ayoubbakhii@gmail.com"));
+        clientService.registerNewClient(new Client("Yassine", "Kenitra", "yas76@gmail.com"));
+        clientService.registerNewClient(new Client("Anas", "Sale", "anason@gmail.com"));
+        clientService.registerNewClient(new Client("Ayoub", "Lwalfa", "ayoi@gmail.com"));
+    }
+
+    // Helper method to show available cars
+    private static void showAvailableCars(CarService carService, BookingService bookingService) {
+        Car[] allCars = carService.getCars();
+        Booking[] bookedCars = bookingService.getBookings();
+        System.out.println("\nAvailable Cars:");
+        for (Car car : allCars) {
+            boolean isBooked = false;
+            for (Booking booking : bookedCars) {
+                if (car != null && booking != null && booking.getCar().equals(car)) {
+                    isBooked = true;
+                    break;
+                }
+            }
+            if (!isBooked && car != null) {
+                System.out.println(car);
+            }
+        }
     }
 }
