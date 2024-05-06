@@ -27,7 +27,7 @@ public class CarFileDataAccessService implements CarDAO {
 
     @Override
     public void saveCar(Car car) {
-        writer.println(car.getCompany() + "," + car.getModel() + "," + car.getColor() + "," + car.isBooked());
+        writer.println(car.getRegis() + "," + car.getCompany() + "," + car.getModel() + "," + car.getColor());
         writer.flush();
     }
 
@@ -39,12 +39,11 @@ public class CarFileDataAccessService implements CarDAO {
             while (scanner.hasNext()){
                 String input = scanner.nextLine();
                 String[] data = input.split(",");
-                String company = data[0];
-                String model = data[1];
-                String color = data[2];
-                boolean isBooked = Boolean.parseBoolean(data[3]);
-                Car car = new Car(company, model, color);
-                car.setBooked(isBooked);
+                String regis = data[0];
+                String company = data[1];
+                String model = data[2];
+                String color = data[3];
+                Car car = new Car(regis, company, model, color);
                 Cars[index++] = car;
             }
         } catch (FileNotFoundException e) {

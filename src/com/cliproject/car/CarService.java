@@ -27,22 +27,4 @@ public class CarService {
         return cars;
     }
 
-    public void showAllAvailableCars() {
-        Car[] carsData = getCars();
-
-
-        for (int i = 0; i < carsData.length; i++) {
-            if (carsData[i] != null && !carsData[i].isBooked()) {
-                System.out.println((i + 1) +
-                        "-- " +
-                        carsData[i].getCompany() +
-                        " " +
-                        carsData[i].getModel() +
-                        " (" +
-                        carsData[i].getColor() +
-                        ")");
-            }
-        }
-    }
-
 }

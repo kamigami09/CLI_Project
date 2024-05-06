@@ -21,47 +21,76 @@ public class BookingService {
         this.dataChoice = dataChoice;
     }
 
-    public void registerNewBooking(Booking booking){
+    public void registerNewBooking(Booking booking) {
         bookingArrayDataAccessService.saveBooking(booking);
         bookingFileDataAccessService.saveBooking(booking);
     }
 
-    public Booking[] getBookings(){
+    public Booking[] getBookings() {
         Booking[] bookings = (dataChoice == 1) ? bookingFileDataAccessService.getBookings()
                 : (dataChoice == 2) ? bookingArrayDataAccessService.getBookings()
                 : null;
         return bookings;
     }
 
-    public void showBookings(){
+    public void showBookings() {
         Booking[] bookings = getBookings();
+        boolean bookingExists = false;
 
-        if (bookings.length == 0) {
-            System.out.println("Empty");
+        for (Booking x : bookings){
+            if (x != null) {
+                bookingExists = true;
+            }
         }
-
-
-        System.out.println("\nBooked Cars: ");
-        for (Booking x : bookings)
-            if (x != null){
-            System.out.println("-- "
-                    + x.getCar().getCompany()
-                    + " "
-                    + x.getCar().getModel()
-                    + " ("
-                    + x.getCar().getColor()
-                    + ") "
-                    + x.getClient().getName()
-                    + " "
-                    + x.getClient().getEmail()
-                    + " "
-                    + x.getClient().getAddress()
-                    + " "
-                    + x.getStartDate()
-                    + " "
-                    + x.getEndDate());
+        if (!bookingExists) {
+            System.out.println("No booking found");
+        }
+        else{
+            System.out.println("Bookings: ");
+            for (Booking x : bookings){
+                if(x != null){
+                    System.out.println(x);
+                }
+            }
         }
     }
+
+    public void showAvailableCars(CarService carService) {
+        Car[] allCars = carService.getCars();
+        Booking[] bookings = getBookings();
+
+        boolean availableCarsExist = false;
+        for (Car car : allCars) {
+            boolean isBooked = false;
+            for (Booking booking : bookings) {
+                if (booking != null && booking.getCar().equals(car)) {
+                    isBooked = true;
+                    break;
+                }
+            }
+            if (!isBooked && car != null) {
+                availableCarsExist = true;
+            }
+        }
+        if (!availableCarsExist) {
+            System.out.println("No cars are currently available.");
+        }
+        else {
+            System.out.println("Available cars: ");
+            for (Car car : allCars) {
+                boolean isBooked = false;
+                for (Booking booking : bookings) {
+                    if (booking != null && booking.getCar().equals(car)) {
+                        isBooked = true;
+                    }
+                }
+                if (!isBooked && car != null) {
+                    System.out.println(car);
+                }
+            }
+        }
+    }
+
 
     public void bookACar(Scanner scanner,
                          CarService carService,
@@ -78,13 +107,23 @@ public class BookingService {
             return;
         }
 
-        carService.showAllAvailableCars();
+        showAvailableCars(carService);
 
-        System.out.println("\nEnter the number of the corresponding car you want to book");
-        int carChoice = scanner.nextInt();
-        scanner.nextLine();
+        System.out.println("\nEnter the registration number of the car you want to book");
+        String carRegis = scanner.nextLine();
 
-        Car selectedCar = availableCars[carChoice - 1];
+        Car selectedCar = null;
+        for (Car car : availableCars) {
+            if (car != null && car.getRegis().equals(carRegis)) {
+                selectedCar = car;
+                break;
+            }
+        }
+
+        if (selectedCar == null) {
+            System.out.println("Car with registration number " + carRegis + " not found.");
+            return;
+        }
 
         clientService.showClients();
         System.out.println("\nSelect a client ID in these client: ");
@@ -103,7 +142,6 @@ public class BookingService {
                         endDate);
                 bookingService.registerNewBooking(booking);
                 System.out.println("Booking successful!");
-                selectedCar.setBooked(true);
                 foundClient = true;
                 break;
             }

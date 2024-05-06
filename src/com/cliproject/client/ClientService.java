@@ -17,32 +17,42 @@ public class ClientService {
         this.dataChoice = dataChoice;
     }
 
+    public void registerNewClient(Client client){
+        clientArrayDataAccessService.saveClient(client);
+        clientFileDataAccessService.saveClient(client);
+    }
+
     public Client[] getClients(){
         Client[] clients = (dataChoice == 1) ? clientFileDataAccessService.getClients()
                 : (dataChoice == 2) ? clientArrayDataAccessService.getClients()
                 : null;
         return clients;
     }
-    public void registerNewClient(Client client){
-        clientArrayDataAccessService.saveClient(client);
-        clientFileDataAccessService.saveClient(client);
-    }
+
     public void showClients() {
         Client[] clientsData = getClients();
+        boolean clientExists = false;
 
-        if (clientsData.length == 0) {
-            System.out.println("Empty");
-        }
 
         for (Client client : clientsData) {
             if (client != null) {
-                System.out.println(client);
+                clientExists = true;
             }
-            else {
-                return;
+        }
+        if (!clientExists) {
+            System.out.println("No client found");
+        }
+        else {
+            System.out.println("Available Clients: ");
+            for (Client client : clientsData) {
+                if (client != null) {
+                    System.out.println(client);
+                }
             }
         }
     }
+
+
     public void addClientByScan(Scanner scanner) {
         System.out.println("Enter client Name: ");
         String name = scanner.nextLine();

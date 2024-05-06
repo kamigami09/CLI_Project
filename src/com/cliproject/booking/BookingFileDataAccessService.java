@@ -30,7 +30,7 @@ public class BookingFileDataAccessService implements BookingDAO {
 
     @Override
     public void saveBooking(Booking booking) {
-        writer.println(booking.getCar().getCompany() + "," + booking.getCar().getModel() + "," + booking.getCar().getColor() + "," + booking.getClient().getId() + "," + booking.getClient().getName() + "," + booking.getClient().getAddress() + "," + booking.getClient().getEmail() + "," + booking.getStartDate() + "," + booking.getEndDate());
+        writer.println(booking.getCar().getRegis() + "," + booking.getCar().getCompany() + "," + booking.getCar().getModel() + "," + booking.getCar().getColor() + "," + booking.getClient().getId() + "," + booking.getClient().getName() + "," + booking.getClient().getAddress() + "," + booking.getClient().getEmail() + "," + booking.getStartDate() + "," + booking.getEndDate());
         writer.flush();
     }
 
@@ -42,14 +42,15 @@ public class BookingFileDataAccessService implements BookingDAO {
             while (scanner.hasNext()){
                 String input = scanner.nextLine();
                 String[] data = input.split(",");
-                String company = data[0];
-                String model = data[1];
-                String color = data[2];
-                String id = data[3];
-                String name = data[4];
-                String address = data[5];
-                String email = data[6];
-                Car car = new Car(company, model, color);
+                String regis = data[0];
+                String company = data[1];
+                String model = data[2];
+                String color = data[3];
+                String id = data[4];
+                String name = data[5];
+                String address = data[6];
+                String email = data[7];
+                Car car = new Car(regis, company, model, color);
                 Client client = new Client(id, name, address, email);
                 String startDate = data[7];
                 String endDate = data[8];

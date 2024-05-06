@@ -73,7 +73,7 @@ public class Main {
                     clientService.showClients();
                     break;
                 case 2:
-                    showAvailableCars(carService, bookingService);
+                    bookingService.showAvailableCars(carService);
                     break;
                 case 3:
                     bookingService.showBookings();
@@ -96,11 +96,11 @@ public class Main {
     // Helper method to register sample data
     private static void registerSampleData(CarService carService, ClientService clientService) {
         // Register sample cars
-        carService.registerNewCar(new Car("Toyota", "Camry", "Blue"));
-        carService.registerNewCar(new Car("Toyota", "Supra", "White"));
-        carService.registerNewCar(new Car("Audi", "Rs6", "Black"));
-        carService.registerNewCar(new Car("Honda", "Civic", "Silver"));
-        carService.registerNewCar(new Car("BMW", "3 Series", "Black"));
+        carService.registerNewCar(new Car("5215","Toyota", "Camry", "Blue"));
+        carService.registerNewCar(new Car("1243","Toyota", "Supra", "White"));
+        carService.registerNewCar(new Car("1241", "Audi", "Rs6", "Black"));
+        carService.registerNewCar(new Car("5436", "Honda", "Civic", "Silver"));
+        carService.registerNewCar(new Car("1252", "BMW", "3 Series", "Black"));
 
         // Register sample clients
         clientService.registerNewClient(new Client("Yassine", "Kenitra", "yas76@gmail.com"));
@@ -108,22 +108,4 @@ public class Main {
         clientService.registerNewClient(new Client("Ayoub", "Lwalfa", "ayoi@gmail.com"));
     }
 
-    // Helper method to show available cars
-    private static void showAvailableCars(CarService carService, BookingService bookingService) {
-        Car[] allCars = carService.getCars();
-        Booking[] bookedCars = bookingService.getBookings();
-        System.out.println("\nAvailable Cars:");
-        for (Car car : allCars) {
-            boolean isBooked = false;
-            for (Booking booking : bookedCars) {
-                if (car != null && booking != null && booking.getCar().equals(car)) {
-                    isBooked = true;
-                    break;
-                }
-            }
-            if (!isBooked && car != null) {
-                System.out.println(car);
-            }
-        }
-    }
 }
