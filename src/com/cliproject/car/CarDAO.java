@@ -1,9 +1,9 @@
 package com.cliproject.car;
 
 
+import java.util.ArrayList;
 
 public interface CarDAO {
-    int CAPACITY = 10;
-    Car[] getCars();
+    ArrayList<Car> getCars();
     void saveCar(Car car);
 }

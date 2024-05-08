@@ -4,15 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CarFileDataAccessService implements CarDAO {
 
-    private static Car[] Cars;
-
-    static {
-        Cars = new Car[CAPACITY];
-    }
+    private static ArrayList<Car> cars = new ArrayList<>();
     private static File csvFile = new File("src/com/cliproject/car/Cars.csv");
     private static PrintWriter writer;
 
@@ -32,24 +29,23 @@ public class CarFileDataAccessService implements CarDAO {
     }
 
     @Override
-    public Car[] getCars() {
-        int index = 0;
+    public ArrayList<Car> getCars() {
         try {
             Scanner scanner = new Scanner(csvFile);
+            scanner.useDelimiter("[,\n]");
+
             while (scanner.hasNext()){
-                String input = scanner.nextLine();
-                String[] data = input.split(",");
-                String regis = data[0];
-                String company = data[1];
-                String model = data[2];
-                String color = data[3];
+                String regis = scanner.next();
+                String company = scanner.next();
+                String model = scanner.next();
+                String color = scanner.next();
                 Car car = new Car(regis, company, model, color);
-                Cars[index++] = car;
+                cars.add(car);
             }
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
 
-        return Cars;
+        return cars;
     }
 }

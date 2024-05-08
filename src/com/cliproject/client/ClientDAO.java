@@ -1,10 +1,12 @@
 package com.cliproject.client;
 
 
+import java.util.ArrayList;
 
 public interface ClientDAO {
 
-    int CAPACITY = 10;
-    Client[] getClients();
+    ArrayList<Client> getClients();
+
     void saveClient(Client client);
+
 }

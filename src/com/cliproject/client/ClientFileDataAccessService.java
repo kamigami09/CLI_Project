@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ClientFileDataAccessService implements ClientDAO {
 
-    private static Client[] clients;
-    static {
-        clients = new Client[CAPACITY];
-    }
+    private static ArrayList<Client> clients = new ArrayList<>();
     private static File csvFile = new File("src/com/cliproject/client/Clients.csv");
     private static PrintWriter writer;
 
@@ -31,19 +29,17 @@ public class ClientFileDataAccessService implements ClientDAO {
     }
 
     @Override
-    public Client[] getClients() {
-        int index = 0;
+    public ArrayList<Client> getClients() {
         try {
             Scanner scanner = new Scanner(csvFile);
+            scanner.useDelimiter("[,\n]");
             while (scanner.hasNext()){
-                String input = scanner.nextLine();
-                String[] data = input.split(",");
-                String id = data[0];
-                String name = data[1];
-                String address = data[2];
-                String email = data[3];
+                String id = scanner.next();
+                String name = scanner.next();
+                String address = scanner.next();
+                String email = scanner.next();
                 Client client = new Client(id, name, address, email);
-                clients[index++] = client;
+                clients.add(client);
             }
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());

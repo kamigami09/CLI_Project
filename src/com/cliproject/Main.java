@@ -1,15 +1,14 @@
 package com.cliproject;
 
-import com.cliproject.booking.Booking;
-import com.cliproject.booking.BookingArrayDataAccessService;
+import com.cliproject.booking.BookingListDataAccessService;
 import com.cliproject.booking.BookingFileDataAccessService;
 import com.cliproject.booking.BookingService;
 import com.cliproject.car.Car;
-import com.cliproject.car.CarArrayDataAccessService;
+import com.cliproject.car.CarListDataAccessService;
 import com.cliproject.car.CarFileDataAccessService;
 import com.cliproject.car.CarService;
 import com.cliproject.client.Client;
-import com.cliproject.client.ClientArrayDataAccessService;
+import com.cliproject.client.ClientLisDataAccessService;
 import com.cliproject.client.ClientFileDataAccessService;
 import com.cliproject.client.ClientService;
 
@@ -23,31 +22,31 @@ public class Main {
 
 
         // Data Choice
-        System.out.println("Please select the data source:\n1. File\n2. Array\nEnter your choice: ");
+        System.out.println("Please select the data source:\n1. File\n2. List\nEnter your choice: ");
         dataChoice = scanner.nextInt();
         scanner.nextLine();
 
 
         //Dependencies:
         CarFileDataAccessService carFileDataAccessService = new CarFileDataAccessService();
-        CarArrayDataAccessService carArrayDataAccessService = new CarArrayDataAccessService();
-        ClientArrayDataAccessService clientArrayDataAccessService = new ClientArrayDataAccessService();
+        CarListDataAccessService carListDataAccessService = new CarListDataAccessService();
+        ClientLisDataAccessService clientLisDataAccessService = new ClientLisDataAccessService();
         ClientFileDataAccessService clientFileDataAccessService = new ClientFileDataAccessService();
-        BookingArrayDataAccessService bookingArrayDataAccessService = new BookingArrayDataAccessService();
+        BookingListDataAccessService bookingListDataAccessService = new BookingListDataAccessService();
         BookingFileDataAccessService bookingFileDataAccessService = new BookingFileDataAccessService();
 
 
         //Injecting the dependencies:
         CarService carService = new CarService(
-                carArrayDataAccessService,
+                carListDataAccessService,
                 carFileDataAccessService,
                 dataChoice);
         ClientService clientService = new ClientService(
-                clientArrayDataAccessService,
+                clientLisDataAccessService,
                 clientFileDataAccessService,
                 dataChoice);
         BookingService bookingService = new BookingService(
-                bookingArrayDataAccessService,
+                bookingListDataAccessService,
                 bookingFileDataAccessService,
                 dataChoice);
 

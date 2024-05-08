@@ -7,15 +7,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BookingFileDataAccessService implements BookingDAO {
 
-    private static Booking[] Bookings;
-    private static int nextAvailableSpot=0;
-    static {
-        Bookings = new Booking[CAPACITY];
-    }
+    private static ArrayList<Booking> bookings = new ArrayList<>();
+
     private static File csvFile = new File("src/com/cliproject/booking/Bookings.csv");
     private static PrintWriter writer;
 
@@ -35,32 +33,35 @@ public class BookingFileDataAccessService implements BookingDAO {
     }
 
     @Override
-    public Booking[] getBookings() {
-        int index = 0;
+    public ArrayList<Booking> getBookings() {
         try {
             Scanner scanner = new Scanner(csvFile);
+            scanner.useDelimiter("[,\n]");
+
             while (scanner.hasNext()){
-                String input = scanner.nextLine();
-                String[] data = input.split(",");
-                String regis = data[0];
-                String company = data[1];
-                String model = data[2];
-                String color = data[3];
-                String id = data[4];
-                String name = data[5];
-                String address = data[6];
-                String email = data[7];
+
+                //Reading the data from the file
+                String regis = scanner.next();
+                String company = scanner.next();
+                String model = scanner.next();
+                String color = scanner.next();
+                String id = scanner.next();
+                String name = scanner.next();
+                String address = scanner.next();
+                String email = scanner.next();
+                String startDate = scanner.next();
+                String endDate = scanner.next();
+
+
                 Car car = new Car(regis, company, model, color);
                 Client client = new Client(id, name, address, email);
-                String startDate = data[7];
-                String endDate = data[8];
-                Booking Booking = new Booking(car, client, startDate, endDate);
-                Bookings[index++] = Booking;
+                Booking booking = new Booking(car, client, startDate, endDate);
+                bookings.add(booking);
             }
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
 
-        return Bookings;
+        return bookings;
     }
 }

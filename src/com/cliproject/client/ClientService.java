@@ -1,36 +1,37 @@
 package com.cliproject.client;
 
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ClientService {
 
-    private final ClientArrayDataAccessService clientArrayDataAccessService;
+    private final ClientLisDataAccessService clientLisDataAccessService;
     private final ClientFileDataAccessService clientFileDataAccessService;
     private int dataChoice;
 
-    public ClientService(ClientArrayDataAccessService clientArrayDataAccessService,
+    public ClientService(ClientLisDataAccessService clientLisDataAccessService,
                          ClientFileDataAccessService clientFileDataAccessService,
                          int dataChoice) {
-        this.clientArrayDataAccessService = clientArrayDataAccessService;
+        this.clientLisDataAccessService = clientLisDataAccessService;
         this.clientFileDataAccessService = clientFileDataAccessService;
         this.dataChoice = dataChoice;
     }
 
     public void registerNewClient(Client client){
-        clientArrayDataAccessService.saveClient(client);
+        clientLisDataAccessService.saveClient(client);
         clientFileDataAccessService.saveClient(client);
     }
 
-    public Client[] getClients(){
-        Client[] clients = (dataChoice == 1) ? clientFileDataAccessService.getClients()
-                : (dataChoice == 2) ? clientArrayDataAccessService.getClients()
+    public ArrayList<Client> getClients(){
+        ArrayList<Client> clients = (dataChoice == 1) ? clientFileDataAccessService.getClients()
+                : (dataChoice == 2) ? clientLisDataAccessService.getClients()
                 : null;
         return clients;
     }
 
     public void showClients() {
-        Client[] clientsData = getClients();
+        ArrayList<Client> clientsData = getClients();
         boolean clientExists = false;
 
 

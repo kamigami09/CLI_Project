@@ -1,9 +1,9 @@
 package com.cliproject.booking;
 
 
+import java.util.ArrayList;
 
 public interface BookingDAO {
-    int CAPACITY = 10;
-    Booking[] getBookings();
+    ArrayList<Booking> getBookings();
     void saveBooking(Booking booking);
 }

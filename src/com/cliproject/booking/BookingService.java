@@ -5,36 +5,37 @@ import com.cliproject.car.CarService;
 import com.cliproject.client.Client;
 import com.cliproject.client.ClientService;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BookingService {
 
-    private final BookingArrayDataAccessService bookingArrayDataAccessService;
+    private final BookingListDataAccessService bookingListDataAccessService;
     private final BookingFileDataAccessService bookingFileDataAccessService;
     private final int dataChoice;
 
-    public BookingService(BookingArrayDataAccessService bookingArrayDataAccessService,
+    public BookingService(BookingListDataAccessService bookingListDataAccessService,
                           BookingFileDataAccessService bookingFileDataAccessService,
                           int dataChoice) {
-        this.bookingArrayDataAccessService = bookingArrayDataAccessService;
+        this.bookingListDataAccessService = bookingListDataAccessService;
         this.bookingFileDataAccessService = bookingFileDataAccessService;
         this.dataChoice = dataChoice;
     }
 
     public void registerNewBooking(Booking booking) {
-        bookingArrayDataAccessService.saveBooking(booking);
+        bookingListDataAccessService.saveBooking(booking);
         bookingFileDataAccessService.saveBooking(booking);
     }
 
-    public Booking[] getBookings() {
-        Booking[] bookings = (dataChoice == 1) ? bookingFileDataAccessService.getBookings()
-                : (dataChoice == 2) ? bookingArrayDataAccessService.getBookings()
+    public ArrayList<Booking> getBookings() {
+        ArrayList<Booking> bookings = (dataChoice == 1) ? bookingFileDataAccessService.getBookings()
+                : (dataChoice == 2) ? bookingListDataAccessService.getBookings()
                 : null;
         return bookings;
     }
 
     public void showBookings() {
-        Booking[] bookings = getBookings();
+        ArrayList<Booking> bookings = getBookings();
         boolean bookingExists = false;
 
         for (Booking x : bookings){
@@ -56,8 +57,8 @@ public class BookingService {
     }
 
     public void showAvailableCars(CarService carService) {
-        Car[] allCars = carService.getCars();
-        Booking[] bookings = getBookings();
+        ArrayList<Car> allCars = carService.getCars();
+        ArrayList<Booking> bookings = getBookings();
 
         boolean availableCarsExist = false;
         for (Car car : allCars) {
@@ -98,8 +99,8 @@ public class BookingService {
                          BookingService bookingService){
 
         boolean foundClient = false;
-        Car[] availableCars = carService.getCars();
-        Client[] availableClients = clientService.getClients();
+        ArrayList<Car> availableCars = carService.getCars();
+        ArrayList<Client> availableClients = clientService.getClients();
 
 
         if(availableCars == null || availableClients == null) {
